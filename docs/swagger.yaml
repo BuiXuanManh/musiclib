@@ -1,0 +1,533 @@
+basePath: /v1
+definitions:
+  controllers.ResetPassword:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+      username:
+        type: string
+    required:
+    - new_password
+    - old_password
+    - username
+    type: object
+  dto.AlbumDto:
+    properties:
+      album_cover:
+        type: string
+      album_title:
+        type: string
+    type: object
+  dto.TrackDto:
+    properties:
+      artist:
+        type: string
+      duration:
+        type: string
+      file_name:
+        type: string
+      genre:
+        type: string
+      music_title:
+        type: string
+      release_year:
+        type: string
+    type: object
+  dto.UserDto:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  models.Album:
+    properties:
+      album_cover:
+        type: string
+      album_title:
+        type: string
+      id:
+        type: string
+      tracks:
+        items:
+          $ref: '#/definitions/models.Track'
+        type: array
+    type: object
+  models.Track:
+    properties:
+      artist:
+        type: string
+      duration:
+        type: string
+      file_name:
+        type: string
+      genre:
+        type: string
+      id:
+        type: string
+      music_title:
+        type: string
+      release_year:
+        type: string
+    type: object
+  models.User:
+    properties:
+      id:
+        type: string
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /album/add_track/{id}:
+    post:
+      consumes:
+      - application/json
+      description: Add a Track to Album
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Find by album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Track data to create
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TrackDto'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: AddTrackToAlbum
+      tags:
+      - album
+  /album/create:
+    post:
+      consumes:
+      - application/json
+      description: create a Album
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: Album data to create
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AlbumDto'
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: CreateAlbum
+      tags:
+      - album
+  /album/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete a album
+      parameters:
+      - description: Delete by Album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteAlbum
+      tags:
+      - album
+  /album/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a album
+      parameters:
+      - description: Find by album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Album'
+      summary: GetAlbum
+      tags:
+      - album
+  /album/getAll:
+    get:
+      consumes:
+      - application/json
+      description: get albums
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Album'
+            type: array
+      summary: List albums
+      tags:
+      - album
+  /album/remove_track/{id}/{trackId}:
+    put:
+      consumes:
+      - application/json
+      description: Remove a Track from Album
+      parameters:
+      - description: Find by Album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Remove by Track ID
+        in: path
+        name: trackId
+        required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: RemoveTrackFromAlbum
+      tags:
+      - album
+  /album/search:
+    get:
+      consumes:
+      - application/json
+      description: Get list tracks and albums by keyword
+      parameters:
+      - description: Search by keyword
+        in: query
+        name: keyword
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: GetTrackAndAlbum
+      tags:
+      - album
+  /album/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a album
+      parameters:
+      - description: Update by Album ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Album data to update
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/dto.AlbumDto'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateAlbum
+      tags:
+      - album
+  /track/create:
+    post:
+      consumes:
+      - application/json
+      description: create a Track
+      parameters:
+      - description: Track data to create
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TrackDto'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: CreateTrack
+      tags:
+      - track
+  /track/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete a track
+      parameters:
+      - description: Delete by Track ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteTrack
+      tags:
+      - track
+  /track/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a track
+      parameters:
+      - description: Find by Track ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Track'
+      summary: GetTrack
+      tags:
+      - track
+  /track/getAll:
+    get:
+      consumes:
+      - application/json
+      description: get tracks
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Track'
+            type: array
+      summary: List tracks
+      tags:
+      - track
+  /track/update/{id}:
+    put:
+      consumes:
+      - application/json
+      description: Update a track
+      parameters:
+      - description: Update by Track ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Track data to update
+        in: body
+        name: track
+        required: true
+        schema:
+          $ref: '#/definitions/dto.TrackDto'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateTrack
+      tags:
+      - track
+  /user/change_password:
+    patch:
+      consumes:
+      - application/json
+      description: change pass a user
+      parameters:
+      - description: User data to change password
+        in: body
+        name: changePass
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResetPassword'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: ChangePass
+      tags:
+      - user
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: create a user
+      parameters:
+      - description: User data to create
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/dto.UserDto'
+      produces:
+      - application/json
+      responses: {}
+      summary: CreateUser
+      tags:
+      - user
+  /user/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: delete a user
+      parameters:
+      - description: Delete by User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: DeleteUser
+      tags:
+      - user
+  /user/get/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get a user
+      parameters:
+      - description: Find by User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      security:
+      - ApiKeyAuth: []
+      summary: GetUser
+      tags:
+      - user
+  /user/update:
+    patch:
+      consumes:
+      - application/json
+      description: Update a user
+      parameters:
+      - description: User data to update
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: UpdateUser
+      tags:
+      - user
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
